@@ -118,6 +118,8 @@ function clyde_Chase () {
     }
     smallestInArray()
     console.logValue("smallest distance", clyde_distance[smallest_index])
+    console.logValue("smallest index", smallest_index)
+    console.logValue("total index", clyde_distance.length)
     clyde_direction = clyde_possible_dir[smallest_index]
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
@@ -159,10 +161,14 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location
 })
 function smallestInArray () {
     smallest_distance = clyde_distance[0]
-    for (let index = 0; index <= clyde_distance.length; index++) {
-        if (clyde_distance[index] < smallest_distance) {
-            smallest_distance = clyde_distance[index]
-            smallest_index = index
+    if (clyde_distance.length == 1) {
+        smallest_index = 0
+    } else {
+        for (let index = 0; index <= clyde_distance.length; index++) {
+            if (clyde_distance[index] < smallest_distance) {
+                smallest_distance = clyde_distance[index]
+                smallest_index = index
+            }
         }
     }
 }
