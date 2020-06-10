@@ -1,0 +1,17 @@
+{
+    "name": "Pacman beta 25",
+    "description": "",
+    "dependencies": {
+        "device": "*",
+        "pxt-turtlelogo": "github:abegel/pxt-turtlelogo#3b026c5024fe6bda25b4b638aab8e9bae114de2a"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md"
+    ],
+    "preferredEditor": "blocksprj",
+    "testFiles": [
+        "test.ts"
+    ]
+}
