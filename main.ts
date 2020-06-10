@@ -158,8 +158,8 @@ function smallestInArray () {
     if (clyde_distance.length == 1) {
         smallest_index = 0
     } else {
-        for (let index = 0; index <= clyde_distance.length; index++) {
-            if (clyde_distance[index] < smallest_distance) {
+        for (let index = 0; index <= clyde_distance.length - 1; index++) {
+            if (clyde_distance[index] <= smallest_distance) {
                 smallest_distance = clyde_distance[index]
                 smallest_index = index
             }
