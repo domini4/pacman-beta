@@ -140,13 +140,13 @@ function clyde_CollisionDetection () {
 }
 function clyde_setVelocity () {
     if (clyde_direction == 0) {
-        Clyde.setVelocity(0, -10)
+        Clyde.setVelocity(0, -50)
     } else if (clyde_direction == 90) {
-        Clyde.setVelocity(10, 0)
+        Clyde.setVelocity(50, 0)
     } else if (clyde_direction == 180) {
-        Clyde.setVelocity(0, 10)
+        Clyde.setVelocity(0, 50)
     } else if (clyde_direction == 270) {
-        Clyde.setVelocity(-10, 0)
+        Clyde.setVelocity(-50, 0)
     }
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
@@ -238,7 +238,7 @@ Clyde = sprites.create(img`
 4 . . . 4 . . . . 4 . . . 4 . . 
 `, SpriteKind.Enemy)
 tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
-Clyde.setVelocity(0, -10)
+Clyde.setVelocity(0, -50)
 let clydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
 let clydePrevColumn = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
 game.onUpdate(function () {
