@@ -103,6 +103,48 @@ function clyde_Chase () {
     clyde_distance = []
     if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
         clyde_possible_dir.push(sprites.heading(Clyde))
+        if (true) {
+            clydeDistance(sprites.heading(Clyde))
+        } else {
+            clyde_ScatterDistance(sprites.heading(Clyde))
+        }
+        clyde_distance.push(clyde_returnDistance)
+    }
+    if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)))) {
+        clyde_possible_dir.push(Math.mod(sprites.heading(Clyde) + 90, 360))
+        if (true) {
+            clydeDistance(Math.mod(sprites.heading(Clyde) + 90, 360))
+        } else {
+            clyde_ScatterDistance(Math.mod(sprites.heading(Clyde) + 90, 360))
+        }
+        clyde_distance.push(clyde_returnDistance)
+    }
+    if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))) {
+        clyde_possible_dir.push(Math.mod(sprites.heading(Clyde) - 90, 360))
+        if (true) {
+            clydeDistance(Math.mod(sprites.heading(Clyde) - 90, 360))
+        } else {
+            clyde_ScatterDistance(Math.mod(sprites.heading(Clyde) - 90, 360))
+        }
+        clyde_distance.push(clyde_returnDistance)
+    }
+    smallestInArray()
+    clyde_direction = clyde_possible_dir[smallest_index]
+}
+function clyde_ScatterDistance (num: number) {
+    if (num == sprites.heading(Clyde)) {
+        clyde_returnDistance = (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))) * (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))) + (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde))) * (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))
+    } else if (num == Math.mod(sprites.heading(Clyde) + 90, 360)) {
+        clyde_returnDistance = (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))) * (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))) + (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde))) * (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Right, Clyde)))
+    } else {
+        clyde_returnDistance = (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) * (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) + (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) * (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))
+    }
+}
+function clyde_Scatter () {
+    clyde_possible_dir = []
+    clyde_distance = []
+    if (!(scene.isTileAWallAt(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Ahead, Clyde)))) {
+        clyde_possible_dir.push(sprites.heading(Clyde))
         clydeDistance(sprites.heading(Clyde))
         clyde_distance.push(clyde_returnDistance)
     }
@@ -121,7 +163,7 @@ function clyde_Chase () {
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
-    Score += 1
+    info.changeScoreBy(10)
     number_pellets += -1
     if (number_pellets == 0) {
         pause(500)
@@ -152,13 +194,16 @@ function clyde_setVelocity () {
         Clyde.setVelocity(-50, 0)
     }
 }
+info.onCountdownEnd(function () {
+    clydeMode = 1
+})
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
-    Score += 10
+    info.changeScoreBy(1)
 })
 function clyde_ScatterMain () {
     if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != clydePrevRow || scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != clydePrevColumn)) {
-        clyde_Chase()
+        clyde_Scatter()
         clydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
         clydePrevColumn = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
     }
@@ -179,7 +224,7 @@ function smallestInArray () {
         smallest_index = 0
     } else {
         for (let index = 0; index <= clyde_distance.length - 1; index++) {
-            if (clyde_distance[index] <= smallest_distance) {
+            if (clyde_distance[index] < smallest_distance) {
                 smallest_distance = clyde_distance[index]
                 smallest_index = index
             }
@@ -192,6 +237,9 @@ let clyde_direction = 0
 let clyde_returnDistance = 0
 let clyde_distance: number[] = []
 let clyde_possible_dir: number[] = []
+let clydeMode = 0
+let clydeScatterRow = 0
+let clydeScatterCol = 0
 let clydePrevColumn = 0
 let clydePrevRow = 0
 let Clyde: Sprite = null
@@ -263,9 +311,13 @@ tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
 Clyde.setVelocity(0, -50)
 clydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
 clydePrevColumn = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
-let Score = 0
+info.setScore(0)
+clydeScatterCol = scene.getTileColCoordinate(tiles.getTileLocation(1, 1))
+clydeScatterRow = scene.getTileRowCoordinate(tiles.getTileLocation(1, 1))
+clydeMode = 0
 game.onUpdate(function () {
     sprites.updateheading(Clyde)
+    info.startCountdown(30)
     clyde_ScatterMain()
 })
 game.onUpdate(function () {
