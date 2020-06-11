@@ -178,8 +178,13 @@ function clyde_ScatterDistance (num: number) {
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    music.baDing.play()
-    info.changeLifeBy(-1)
+    if (scraed_ghost == 0) {
+        music.baDing.play()
+        info.changeLifeBy(-1)
+    } else {
+        music.powerUp.play()
+        tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
+    }
 })
 info.onCountdownEnd(function () {
     scraed_ghost = 0
@@ -467,7 +472,7 @@ info.setLife(1)
 scraed_ghost = 0
 game.onUpdate(function () {
     sprites.updateheading(Clyde)
-    if (Math.mod(game.runtime() / 1000, 60) < 30) {
+    if (Math.mod(game.runtime() / 1000, 60) < 30 && scraed_ghost == 0) {
         clydeMode = 0
     } else {
         clydeMode = 1
