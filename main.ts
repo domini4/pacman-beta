@@ -167,6 +167,9 @@ function clyde_setVelocity () {
     } else if (clyde_direction == 270) {
         Clyde.setVelocity(-50, 0)
     }
+    if (scraed_ghost == 1) {
+        Clyde.setVelocity(Clyde.vx * 0.5, Clyde.vy * 0.5)
+    }
 }
 function clyde_ScatterDistance (num: number) {
     if (num == sprites.heading(Clyde)) {
@@ -219,7 +222,7 @@ function clydeDistance (num: number) {
 info.onLifeZero(function () {
     tiles.placeOnTile(Pacman, tiles.getTileLocation(1, 3))
     tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
-    info.setLife(1)
+    info.setLife(3)
 })
 function smallestInArray () {
     smallest_distance = clyde_distance[0]
@@ -468,7 +471,7 @@ info.setScore(0)
 clydeScatterCol = scene.getTileColCoordinate(tiles.getTileLocation(1, 1))
 clydeScatterRow = scene.getTileRowCoordinate(tiles.getTileLocation(1, 1))
 clydeMode = 0
-info.setLife(1)
+info.setLife(3)
 scraed_ghost = 0
 game.onUpdate(function () {
     sprites.updateheading(Clyde)
