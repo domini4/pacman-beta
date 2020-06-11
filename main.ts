@@ -1,3 +1,9 @@
+enum ActionKind {
+    Walking,
+    Idle,
+    Jumping,
+    scared
+}
 namespace SpriteKind {
     export const location = SpriteKind.create()
 }
@@ -136,6 +142,7 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location
     info.changeScoreBy(10)
     scraed_ghost = 1
     info.startCountdown(30)
+    animation.setAction(Clyde, ActionKind.scared)
 })
 function clyde_CollisionDetection () {
     clyde_possible_dir = []
@@ -176,6 +183,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 info.onCountdownEnd(function () {
     scraed_ghost = 0
+    animation.setAction(Clyde, ActionKind.Walking)
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
@@ -298,6 +306,155 @@ Clyde = sprites.create(img`
 4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
 4 . . . 4 . . . . 4 . . . 4 . . 
 `, SpriteKind.Enemy)
+let anim_walk = animation.createAnimation(ActionKind.Walking, 150)
+animation.attachAnimation(Clyde, anim_walk)
+anim_walk.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . . . 4 . . . . 4 . . . 4 . . 
+`)
+anim_walk.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 1 1 8 8 4 4 1 1 8 8 . . . 
+. 4 4 1 1 8 8 4 4 1 1 8 8 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . . . 4 . . . . 4 . . . 4 . . 
+`)
+anim_walk.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 . . . 
+. 4 4 1 8 8 1 4 4 1 8 8 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . . . 4 . . . . 4 . . . 4 . . 
+`)
+anim_walk.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 4 4 4 4 . . . . . . . 
+. . . 4 4 4 4 4 4 4 4 . . . . . 
+. . . 4 4 4 4 4 4 4 4 4 . . . . 
+. . 4 4 1 1 4 4 4 4 1 1 4 . . . 
+. 4 4 1 1 1 1 4 4 1 1 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 . . . 
+. 4 4 8 8 1 1 4 4 8 8 1 1 4 . . 
+4 4 4 4 1 1 4 4 4 4 1 1 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 . . 
+4 4 . 4 4 4 . . 4 4 4 . 4 4 . . 
+4 . . . 4 . . . . 4 . . . 4 . . 
+`)
+animation.setAction(Clyde, ActionKind.Walking)
+let anim_scaredClyde = animation.createAnimation(ActionKind.scared, 150)
+animation.attachAnimation(Clyde, anim_scaredClyde)
+anim_scaredClyde.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 d d 8 8 d d 8 8 d d 8 8 d . . 
+d 8 8 d d 8 8 d d 8 8 d d 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
+8 . . . 8 . . . . 8 . . . 8 . . 
+`)
+anim_scaredClyde.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 1 1 d d 8 8 1 1 d d . . . 
+. 8 8 1 1 d d 8 8 1 1 d d 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 d d 8 8 d d 8 8 d d 8 8 . . 
+d d 8 8 d d 8 8 d d 8 8 d d . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
+8 . . . 8 . . . . 8 . . . 8 . . 
+`)
+anim_scaredClyde.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 . . . 
+. 8 8 1 d d 1 8 8 1 d d 1 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 d d 8 8 d d 8 8 d d 8 8 d . . 
+d 8 8 d d 8 8 d d 8 8 d d 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
+8 . . . 8 . . . . 8 . . . 8 . . 
+`)
+anim_scaredClyde.addAnimationFrame(img`
+. . . . . . . . . . . . . . . . 
+. . . . . 8 8 8 8 . . . . . . . 
+. . . 8 8 8 8 8 8 8 8 . . . . . 
+. . . 8 8 8 8 8 8 8 8 8 . . . . 
+. . 8 8 1 1 8 8 8 8 1 1 8 . . . 
+. 8 8 1 1 1 1 8 8 1 1 1 1 . . . 
+. 8 8 d d 1 1 8 8 d d 1 1 . . . 
+. 8 8 d d 1 1 8 8 d d 1 1 8 . . 
+8 8 8 8 1 1 8 8 8 8 1 1 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 d d 8 8 d d 8 8 d d 8 8 . . 
+d d 8 8 d d 8 8 d d 8 8 d d . . 
+8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
+8 . . . 8 . . . . 8 . . . 8 . . 
+`)
 tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
 Clyde.setVelocity(0, -50)
 clydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))

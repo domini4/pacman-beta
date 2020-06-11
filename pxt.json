@@ -4,7 +4,8 @@
     "dependencies": {
         "device": "*",
         "pxt-turtlelogo": "github:abegel/pxt-turtlelogo#3b026c5024fe6bda25b4b638aab8e9bae114de2a",
-        "color-coded-tilemap": "*"
+        "color-coded-tilemap": "*",
+        "animation": "*"
     },
     "files": [
         "main.blocks",
