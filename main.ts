@@ -184,9 +184,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     if (scraed_ghost == 0) {
         music.baDing.play()
         info.changeLifeBy(-1)
+        tiles.placeOnTile(Pacman, tiles.getTileLocation(7, 11))
     } else {
         music.powerUp.play()
-        tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
+        tiles.placeOnTile(Clyde, tiles.getTileLocation(7, 4))
     }
 })
 info.onCountdownEnd(function () {
@@ -220,9 +221,9 @@ function clydeDistance (num: number) {
     }
 }
 info.onLifeZero(function () {
-    tiles.placeOnTile(Pacman, tiles.getTileLocation(1, 3))
-    tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
-    info.setLife(3)
+    tiles.placeOnTile(Pacman, tiles.getTileLocation(7, 11))
+    tiles.placeOnTile(Clyde, tiles.getTileLocation(7, 4))
+    game.over(false, effects.dissolve)
 })
 function smallestInArray () {
     smallest_distance = clyde_distance[0]
@@ -294,8 +295,26 @@ Pacman = sprites.create(img`
 . . . . . . 5 5 5 5 5 5 . . . . 
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.Player)
-tiles.placeOnTile(Pacman, tiles.getTileLocation(1, 3))
+tiles.placeOnTile(Pacman, tiles.getTileLocation(7, 11))
 number_pellets = tiles.getTilesByType(myTiles.tile2).length
+let bonus = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . e e . . . . 
+. . . . . . . . . . e e . . . . 
+. . . . . . . . e e . . . . . . 
+. . . . . . e e . e . . . . . . 
+. . . . . e . . . e . . . . . . 
+. 2 2 2 e . . . e . . . . . . . 
+2 2 2 e 2 2 . e . . . . . . . . 
+2 2 e 2 2 . 2 e 2 2 . . . . . . 
+2 1 2 2 . 2 2 e 2 2 2 . . . . . 
+2 2 1 2 . 2 2 2 2 2 2 . . . . . 
+. 2 2 2 . 2 1 2 2 2 2 . . . . . 
+. . . . . 2 2 1 2 2 2 . . . . . 
+. . . . . . 2 2 2 2 . . . . . . 
+`, SpriteKind.Food)
 Clyde = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . 4 4 4 4 . . . . . . . 
@@ -463,7 +482,7 @@ d d 8 8 d d 8 8 d d 8 8 d d . .
 8 8 . 8 8 8 . . 8 8 8 . 8 8 . . 
 8 . . . 8 . . . . 8 . . . 8 . . 
 `)
-tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
+tiles.placeOnTile(Clyde, tiles.getTileLocation(7, 4))
 Clyde.setVelocity(0, -50)
 clydePrevRow = scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde))
 clydePrevColumn = scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde))
