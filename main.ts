@@ -133,9 +133,9 @@ function clyde_Chase () {
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
-    info.changeScoreBy(30)
+    info.changeScoreBy(10)
     scraed_ghost = 1
-    info.startCountdown(10)
+    info.startCountdown(30)
 })
 function clyde_CollisionDetection () {
     clyde_possible_dir = []
