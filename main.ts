@@ -133,12 +133,9 @@ function clyde_Chase () {
 }
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile3, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
-    info.changeScoreBy(10)
-    number_pellets += -1
-    if (number_pellets == 0) {
-        pause(500)
-        game.over(true, effects.confetti)
-    }
+    info.changeScoreBy(30)
+    scraed_ghost = 1
+    info.startCountdown(10)
 })
 function clyde_CollisionDetection () {
     clyde_possible_dir = []
@@ -174,12 +171,20 @@ function clyde_ScatterDistance (num: number) {
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    tiles.placeOnTile(Pacman, tiles.getTileLocation(1, 3))
+    music.baDing.play()
     info.changeLifeBy(-1)
+})
+info.onCountdownEnd(function () {
+    scraed_ghost = 0
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
     info.changeScoreBy(1)
+    number_pellets += -1
+    if (number_pellets == 0) {
+        pause(500)
+        game.over(true, effects.confetti)
+    }
 })
 function clyde_ScatterMain () {
     if (scene.spriteContainedWithinTile(Clyde) && (scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Clyde)) != clydePrevRow || scene.getTileColCoordinate(scene.getTileLocationOfSprite(Clyde)) != clydePrevColumn)) {
@@ -199,7 +204,9 @@ function clydeDistance (num: number) {
     }
 }
 info.onLifeZero(function () {
-    game.over(false, effects.blizzard)
+    tiles.placeOnTile(Pacman, tiles.getTileLocation(1, 3))
+    tiles.placeOnTile(Clyde, tiles.getTileLocation(5, 3))
+    info.setLife(1)
 })
 function smallestInArray () {
     smallest_distance = clyde_distance[0]
@@ -220,6 +227,7 @@ let clyde_direction = 0
 let clyde_returnDistance = 0
 let clyde_distance: number[] = []
 let clyde_possible_dir: number[] = []
+let scraed_ghost = 0
 let clydeMode = 0
 let clydeScatterRow = 0
 let clydeScatterCol = 0
@@ -298,7 +306,8 @@ info.setScore(0)
 clydeScatterCol = scene.getTileColCoordinate(tiles.getTileLocation(1, 1))
 clydeScatterRow = scene.getTileRowCoordinate(tiles.getTileLocation(1, 1))
 clydeMode = 0
-info.setLife(3)
+info.setLife(1)
+scraed_ghost = 0
 game.onUpdate(function () {
     sprites.updateheading(Clyde)
     if (Math.mod(game.runtime() / 1000, 60) < 30) {
