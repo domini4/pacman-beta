@@ -173,6 +173,10 @@ function clyde_ScatterDistance (num: number) {
         clyde_returnDistance = (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) * (clydeScatterCol - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) + (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) * (clydeScatterRow - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    tiles.placeOnTile(Pacman, tiles.getTileLocation(1, 3))
+    info.changeLifeBy(-1)
+})
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile2, function (sprite, location) {
     tiles.setTileAt(location, myTiles.tile0)
     info.changeScoreBy(1)
@@ -194,6 +198,9 @@ function clydeDistance (num: number) {
         clyde_returnDistance = (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)) - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) * (scene.getTileColCoordinate(scene.getTileLocationOfSprite(Pacman)) - scene.getTileColCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) + (scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)) - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde))) * (scene.getTileRowCoordinate(scene.getTileLocationOfSprite(Pacman)) - scene.getTileRowCoordinate(scene.getCoordinateNTilesAwayFromTile(1, TravelDirection.Left, Clyde)))
     }
 }
+info.onLifeZero(function () {
+    game.over(false, effects.blizzard)
+})
 function smallestInArray () {
     smallest_distance = clyde_distance[0]
     if (clyde_distance.length == 1) {
@@ -291,6 +298,7 @@ info.setScore(0)
 clydeScatterCol = scene.getTileColCoordinate(tiles.getTileLocation(1, 1))
 clydeScatterRow = scene.getTileRowCoordinate(tiles.getTileLocation(1, 1))
 clydeMode = 0
+info.setLife(3)
 game.onUpdate(function () {
     sprites.updateheading(Clyde)
     if (Math.mod(game.runtime() / 1000, 60) < 30) {
